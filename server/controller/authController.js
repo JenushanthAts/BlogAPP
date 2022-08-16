@@ -72,7 +72,7 @@ export const signin = async (req, res) => {
     const userId = getUserDetails[0].user_id;
     const userName = getUserDetails[0].user_name;
     const userMail = getUserDetails[0].email;
-    const token = jwt.sign({ userMail }, "jwtSecret_Blog", {
+    const token = jwt.sign({ userMail }, process.env.JWT_KEY, {
       expiresIn: "8h",
     });
 

@@ -38,8 +38,17 @@ export const Single = () => {
 
   //event handler for deletin the blog
   const handleDelete = async () => {
+    console.log(user.user.id);
     try {
-      const res = await axios.delete(`${API}/api/blog/deletBlog/${postId}`);
+      const res = await axios.delete(
+        `${API}/api/blog/deleteBlog/${postId}`,
+        { data: { userId: user.user.id } },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
       navigate("/");
       return res;
     } catch (err) {
@@ -50,11 +59,19 @@ export const Single = () => {
   //event handler for updating the blog
   const handleUpdate = async () => {
     try {
-      const res = await axios.put(`${API}/api/blog/updateBlog/${postId}`, {
-        userId: user.user.id,
-        title,
-        desc,
-      });
+      const res = await axios.put(
+        `${API}/api/blog/updateBlog/${postId}`,
+        {
+          userId: user.user.id,
+          title,
+          desc,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
 
       window.location.reload("/");
       return res;

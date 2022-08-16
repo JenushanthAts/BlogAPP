@@ -1,4 +1,5 @@
 import db from "../model/db.config.js";
+
 export const createPost = async (req, res) => {
   try {
     const { title, imgUrl, description, userId } = req.body;
@@ -103,52 +104,79 @@ export const fetchBlogByID = async (req, res) => {
   }
 };
 
-//update the post
+//3.update the post
 export const updateBlog = async (req, res) => {
-  const blogId = req.params.id;
-  const { userId, title, desc } = req.body;
-  const updateQuery =
-    "UPDATE blogs SET post_title = ?, post_description = ? WHERE post_id= ?";
-  const queryPromise = () => {
-    return new Promise((resolve, reject) => {
-      db.query(updateQuery, [title, desc, blogId], (err, result) => {
-        if (err) return reject(err);
-        resolve(result);
-      });
-    });
-  };
   try {
-    const result = await queryPromise();
+    const blogId = req.params.id;
+    // console.log(blogId);
+    const { userId, title, desc } = req.body;
+    const posAuthorId = await findPostAuthorID(blogId);
+    // console.log(posAuthorId);
+    if (posAuthorId.user_id !== userId)
+      throw new Error("You can update your post only");
+
+    const result = await updateBlogContent(title, desc, blogId);
     res.status(200).send({
       message: "Blog has been updated",
       payload: result,
     });
   } catch (err) {
-    res.status(500).send({ message: "Cannot Update it", error: err });
+    res.status(401).send({ message: "Cannot Update it", error: err.message });
   }
 };
-//delete the post
-export const deleteBlog = async (req, res) => {
-  const blogId = req.params.id;
-  const deleteQuery = "DELETE FROM blogs WHERE post_id=?";
-  const queryPromise = () => {
-    return new Promise((resolve, reject) => {
-      db.query(deleteQuery, [blogId], (err, result) => {
-        if (err) return reject(err);
-        resolve(result);
-      });
+
+const findPostAuthorID = (postId) => {
+  const authorIdQuery = "SELECT user_id from blogs where post_id =?";
+  return new Promise((resolve, reject) => {
+    db.query(authorIdQuery, [postId], (err, result) => {
+      if (err) return reject(err);
+      resolve(result[0]);
     });
-  };
+  });
+};
+
+const updateBlogContent = (title, desc, blogId) => {
+  const updateQuery =
+    "UPDATE blogs SET post_title = ?, post_description = ? WHERE post_id= ?";
+  return new Promise((resolve, reject) => {
+    db.query(updateQuery, [title, desc, blogId], (err, result) => {
+      if (err) return reject(err);
+      resolve(result);
+    });
+  });
+};
+
+//4.delete the post
+export const deleteBlog = async (req, res) => {
   try {
-    const result = await queryPromise();
+    const blogId = req.params.id;
+    console.log(blogId);
+    const { userId } = req.body;
+    // console.log(req.body);
+    const posAuthorId = await findPostAuthorID(blogId);
+    // console.log(posAuthorId);
+    if (posAuthorId.user_id !== userId)
+      throw new Error("You can delete your post only");
+
+    const result = await deleteBlogContent(blogId);
     res.status(200).send({
       message: "Blog has been deleted",
       payload: result,
     });
   } catch (err) {
-    res.status(500).send({
-      message: "Cannot Delete it",
-      error: err,
+    res.status(401).send({
+      message: "Cannot delete it",
+      error: err.message,
     });
   }
+};
+
+const deleteBlogContent = (blogId) => {
+  const deleteQuery = "DELETE FROM blogs WHERE post_id=?";
+  return new Promise((resolve, reject) => {
+    db.query(deleteQuery, [blogId], (err, result) => {
+      if (err) return reject(err);
+      resolve(result);
+    });
+  });
 };
