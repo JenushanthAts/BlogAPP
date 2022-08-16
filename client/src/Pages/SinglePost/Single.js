@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
+import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/esm/Col";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
@@ -9,34 +10,31 @@ import { useNavigate, useParams } from "react-router-dom";
 import { API } from "../../config";
 import { AuthContext } from "../../context/AuthContext";
 import "./Single.css";
+import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
+import Button from "react-bootstrap/esm/Button";
 export const Single = () => {
-  const [blogTitle, setBlogTitle] = useState("");
-  const [blogAuthor, setBlogAuthor] = useState("");
-  const [blogAuthorId, setBlogAuthorId] = useState("");
-  const [blogImg, setBlogImg] = useState("");
-  const [blogCreated, setBlogCreated] = useState("");
-  const [blogDescription, setBlogDescription] = useState("");
+  const [post, setPost] = useState({});
+  const [title, setTitle] = useState(" ");
+  const [desc, setDesc] = useState("");
   const { user } = useContext(AuthContext);
+  const [updateMode, setUpdateMode] = useState(false);
   let navigate = useNavigate();
   let { postId } = useParams();
-  // console.log(postId);
+
   useEffect(() => {
     const fetchBlogByID = async () => {
       try {
         const res = await axios.get(`${API}/api/blog/fetBlogByID/${postId}`);
-        setBlogTitle(res.data.payload[0].post_title);
-        setBlogAuthor(res.data.payload[0].user_name);
-        setBlogAuthorId(res.data.payload[0].user_id);
-        setBlogImg(res.data.payload[0].img_url);
-        setBlogDescription(res.data.payload[0].post_description);
-        setBlogCreated(res.data.payload[0].created_at);
+        setPost(res.data.payload[0]);
+        setTitle(res.data.payload[0].post_title);
+        setDesc(res.data.payload[0].post_description);
       } catch (err) {
         console.log(err);
       }
     };
 
     fetchBlogByID();
-  }, [blogTitle, postId]);
+  }, [postId]);
 
   //event handler for deletin the blog
   const handleDelete = async () => {
@@ -48,38 +46,102 @@ export const Single = () => {
       console.log(err);
     }
   };
-  //check current user id and blog user id are same
+
+  //event handler for updating the blog
+  const handleUpdate = async () => {
+    try {
+      const res = await axios.put(`${API}/api/blog/updateBlog/${postId}`, {
+        userId: user.user.id,
+        title,
+        desc,
+      });
+
+      window.location.reload("/");
+      return res;
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <>
       <Container>
         <Row className="m-5">
           <Col xs={12}>
-            <img src={blogImg} className="img-fluid" alt={blogTitle} />
+            <img
+              src={post.img_url}
+              className="img-fluid"
+              alt={post.post_title}
+            />
           </Col>
-          <Col xs={8}>
-            <h3>{blogTitle}</h3>
-          </Col>
-          {user && blogAuthorId === user?.user.id && (
-            <Col xs={4}>
-              <FiEdit style={{ cursor: "pointer" }} /> &nbsp;
-              <RiDeleteBinLine
-                onClick={handleDelete}
-                style={{ cursor: "pointer" }}
+          {updateMode ? (
+            <Form.Group className="mb-3 w-50 mt-4" controlId="formBasicEmail">
+              <Form.Label>Blog Title</Form.Label>
+              <Form.Control
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
-            </Col>
+            </Form.Group>
+          ) : (
+            <>
+              <Col xs={8}>
+                <h3>{post.post_title}</h3>
+              </Col>
+              {user && post.user_id === user?.user.id && (
+                <Col xs={4}>
+                  <FiEdit
+                    onClick={() => setUpdateMode(true)}
+                    style={{ cursor: "pointer" }}
+                  />{" "}
+                  &nbsp;
+                  <RiDeleteBinLine
+                    onClick={handleDelete}
+                    style={{ cursor: "pointer" }}
+                  />
+                </Col>
+              )}
+            </>
           )}
 
           <Col xs={8}>
-            <span className="text">{blogAuthor}</span>
+            <span className="text">Author: {post.user_name}</span>
           </Col>
           <Col xs={4}>
-            <span className="text">{new Date(blogCreated).toDateString()}</span>
+            <span className="text">
+              {new Date(post.created_at).toDateString()}
+            </span>
           </Col>
-          <Col xs={11}>
-            <p>{blogDescription}</p>
-          </Col>
+          {updateMode ? (
+            <FloatingLabel
+              controlId="floatingTextarea"
+              label="Comments"
+              className="mb-3 p-2"
+            >
+              <Form.Control
+                as="textarea"
+                placeholder="Leave a comment here"
+                value={desc}
+                onChange={(e) => setDesc(e.target.value)}
+                style={{ height: "150px" }}
+              />
+            </FloatingLabel>
+          ) : (
+            <>
+              {" "}
+              <Col xs={11}>
+                <p>{post.post_description}</p>
+              </Col>
+            </>
+          )}
         </Row>
+        {updateMode && (
+          <div className="d-flex justify-content-end m-3">
+            <Button variant="warning" onClick={handleUpdate}>
+              Update
+            </Button>
+          </div>
+        )}
       </Container>
     </>
   );

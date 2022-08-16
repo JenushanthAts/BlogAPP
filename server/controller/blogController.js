@@ -103,6 +103,30 @@ export const fetchBlogByID = async (req, res) => {
   }
 };
 
+//update the post
+export const updateBlog = async (req, res) => {
+  const blogId = req.params.id;
+  const { userId, title, desc } = req.body;
+  const updateQuery =
+    "UPDATE blogs SET post_title = ?, post_description = ? WHERE post_id= ?";
+  const queryPromise = () => {
+    return new Promise((resolve, reject) => {
+      db.query(updateQuery, [title, desc, blogId], (err, result) => {
+        if (err) return reject(err);
+        resolve(result);
+      });
+    });
+  };
+  try {
+    const result = await queryPromise();
+    res.status(200).send({
+      message: "Blog has been updated",
+      payload: result,
+    });
+  } catch (err) {
+    res.status(500).send({ message: "Cannot Update it", error: err });
+  }
+};
 //delete the post
 export const deleteBlog = async (req, res) => {
   const blogId = req.params.id;
