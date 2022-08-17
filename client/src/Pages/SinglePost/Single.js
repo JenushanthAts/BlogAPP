@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import Form from "react-bootstrap/Form";
+import { DeleteModal } from "../../Components/DeleteModal/DeleteModal";
 import Col from "react-bootstrap/esm/Col";
+
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import { FiEdit } from "react-icons/fi";
@@ -10,8 +11,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { API } from "../../config";
 import { AuthContext } from "../../context/AuthContext";
 import "./Single.css";
-import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
-import Button from "react-bootstrap/esm/Button";
+
 export const Single = () => {
   const [post, setPost] = useState({});
   const [title, setTitle] = useState(" ");
@@ -20,6 +20,7 @@ export const Single = () => {
   const [updateMode, setUpdateMode] = useState(false);
   let navigate = useNavigate();
   let { postId } = useParams();
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     const fetchBlogByID = async () => {
@@ -36,9 +37,11 @@ export const Single = () => {
     fetchBlogByID();
   }, [postId]);
 
-  //event handler for deletin the blog
+  //event handler for deleting the blog
+  const handleShow = () => setShow(true);
   const handleDelete = async () => {
     console.log(user.user.id);
+    setShow(true);
     try {
       const res = await axios.delete(
         `${API}/api/blog/deleteBlog/${postId}`,
@@ -83,81 +86,101 @@ export const Single = () => {
   return (
     <>
       <Container>
-        <Row className="m-5">
-          <Col xs={12}>
+        <DeleteModal
+          show={show}
+          setShow={setShow}
+          handleDelete={handleDelete}
+        />
+        <Row className="mt-5 mb-3">
+          <Col sm={12} md={12}>
             <img
               src={post.img_url}
-              className="img-fluid"
+              className="blogImg"
               alt={post.post_title}
+              // rounded
+              // width={300}
             />
           </Col>
-          {updateMode ? (
-            <Form.Group className="mb-3 w-50 mt-4" controlId="formBasicEmail">
-              <Form.Label>Blog Title</Form.Label>
-              <Form.Control
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </Form.Group>
-          ) : (
-            <>
-              <Col xs={8}>
-                <h3>{post.post_title}</h3>
-              </Col>
-              {user && post.user_id === user?.user.id && (
-                <Col xs={4}>
-                  <FiEdit
-                    onClick={() => setUpdateMode(true)}
-                    style={{ cursor: "pointer" }}
-                  />{" "}
-                  &nbsp;
-                  <RiDeleteBinLine
-                    onClick={handleDelete}
-                    style={{ cursor: "pointer" }}
-                  />
-                </Col>
-              )}
-            </>
-          )}
+        </Row>
 
-          <Col xs={8}>
-            <span className="text">Author: {post.user_name}</span>
+        <Row className="justify-content-center">
+          <Col sm={9} md={9}>
+            <span className="text">Author : {post.user_name}</span>
           </Col>
-          <Col xs={4}>
+          <Col sm={3} md={3}>
             <span className="text">
-              {new Date(post.created_at).toDateString()}
+              Created at : {new Date(post.created_at).toDateString()}
             </span>
           </Col>
-          {updateMode ? (
-            <FloatingLabel
-              controlId="floatingTextarea"
-              label="Comments"
-              className="mb-3 p-2"
-            >
-              <Form.Control
-                as="textarea"
-                placeholder="Leave a comment here"
+        </Row>
+
+        <Row>
+          <Col sm={12} md={12}>
+            {updateMode ? (
+              <input
+                type="text"
+                className="form-control mt-3"
+                id="exampleFormControlInput1"
+                value={title}
+                // placeholder="name@example.com"
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            ) : (
+              <>
+                {user && post.user_id === user?.user.id && (
+                  <>
+                    <FiEdit
+                      onClick={() => setUpdateMode(true)}
+                      className="icon editColor"
+                    />{" "}
+                    &nbsp;&nbsp;
+                    <RiDeleteBinLine
+                      onClick={handleShow}
+                      className="icon deleteColor"
+                    />
+                  </>
+                )}
+                <h3 className="alignText text-capitalize">{post.post_title}</h3>
+              </>
+            )}
+          </Col>
+        </Row>
+        <Row>
+          <Col sm={12} md={12}>
+            {updateMode ? (
+              <textarea
+                className="form-control mt-3 mb-3"
+                aria-label="With textarea"
                 value={desc}
                 onChange={(e) => setDesc(e.target.value)}
-                style={{ height: "150px" }}
-              />
-            </FloatingLabel>
-          ) : (
-            <>
-              {" "}
-              <Col xs={11}>
-                <p>{post.post_description}</p>
-              </Col>
-            </>
-          )}
+                rows={5}
+              ></textarea>
+            ) : (
+              <p className="text-justify">{post.post_description}</p>
+            )}
+          </Col>
         </Row>
         {updateMode && (
-          <div className="d-flex justify-content-end m-3">
-            <Button variant="warning" onClick={handleUpdate}>
-              Update
-            </Button>
-          </div>
+          // <Row className="mt-3">
+          //   <Col xs={4} sm={4}>
+          <Row className="justify-content-md-start justify-content-sm-center mb-3">
+            <Col>
+              <button className="btn btn-warning " onClick={handleUpdate}>
+                Update
+              </button>
+              &nbsp;
+              <button
+                className="btn btn-secondary "
+                onClick={() => setUpdateMode(false)}
+              >
+                Cancel
+              </button>
+            </Col>
+            <Col xs lg="2"></Col>
+          </Row>
+
+          //   </Col>
+          // </Row>
         )}
       </Container>
     </>

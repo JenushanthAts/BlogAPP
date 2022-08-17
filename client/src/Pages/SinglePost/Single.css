@@ -1,5 +1,24 @@
+.blogImg {
+  width: 100%;
+  height: 450px;
+  object-fit: cover;
+  border-radius: 5px;
+}
 .text {
-  font-size: 15px;
-  color: gray;
+  font-size: 14px;
+  color: #3e729f;
   font-weight: 600;
+}
+.icon {
+  cursor: pointer;
+  font-size: 19px;
+}
+.editColor {
+  color: darkgreen;
+}
+.deleteColor {
+  color: darkorange;
+}
+.alignText {
+  text-align: center;
 }

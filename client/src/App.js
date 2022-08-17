@@ -3,6 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import { TopBar } from "./Components/TopBar/topBar";
 import { AuthContext, ContextProvider } from "./context/AuthContext";
+
 import Home from "./Pages/Home/Home";
 import SignIn from "./Pages/SignIn/SignIn";
 import { Single } from "./Pages/SinglePost/Single";
@@ -15,6 +16,7 @@ function App() {
     <ContextProvider>
       <BrowserRouter>
         <TopBar />
+
         <Routes>
           <Route
             path="/signin"
