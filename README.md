@@ -1,13 +1,24 @@
 # BlogAPP Documentaion <br/>
 
 This web app was developed using ReactJs , NodeJs, ExpressJs and Mysql with Jwt authentication and authorization. Client app is connected to server via REST Api.  <br/>
-```
-.
-├──  dir1
-├── dir2
-│   └── file23.ext
-└── README.md
-```
+Project folder structure be like
++-- _config.yml
++-- _drafts
+|   +-- begin-with-the-crazy-ideas.textile
+|   +-- on-simplicity-in-technology.markdown
++-- _includes
+|   +-- footer.html
+|   +-- header.html
++-- _layouts
+|   +-- default.html
+|   +-- post.html
++-- _posts
+|   +-- 2007-10-29-why-every-programmer-should-play-nethack.textile
+|   +-- 2009-04-26-barcamp-boston-4-roundup.textile
++-- _data
+|   +-- members.yml
++-- _site
++-- index.html
 # To Start
 1.Clone this project with branch name webDev.<br/>
 2.Create database as "blogdb" and insert the attached dump file.Database configuration are like user:root, password:root,host:localhost,db:blogdb.<br/>
@@ -24,12 +35,11 @@ This web app was developed using ReactJs , NodeJs, ExpressJs and Mysql with Jwt 
   6. Create general routes and protected routes inside the app.js file. To access context api hook , Wrap the entire routes into contextProvider.<br/>
   
  #  Back-End<br/> 
-  6.1. Create folder structure as following controller , middleware , model(db configuration), routes and main js file(index.js).<br/>
-  6.2. Create a env file which contains Port number, db configurations and jwt secret key.<br/>
-  6.3. Create end points for user and blog (create post, updat epost, Delete post ,read post) in index.js file.<br/>
-  6.4. Create controller for authentication (Register , SignIn and check whether user exists or not) and Crud operation controller for blog.<br/>
-  6.5. Create route files for authentication and blog crud operations.<br/>
-  6.6. Create middleware and place it into index.js file for handling crud operations (Delete and Update) of blogs.
+  1. Create a env file which contains Port number, db configurations and jwt secret key.<br/>
+  2. Create end points for user and blog (create post, updat epost, Delete post ,read post) in index.js file.<br/>
+  3. Create controller for authentication (Register , SignIn and check whether user exists or not) and Crud operation controller for blog.<br/>
+  4. Create route files for authentication and blog crud operations.<br/>
+  5. Create middleware and place it into index.js file for handling crud operations (Delete and Update) of blogs.
 
 # Main Features are
   User Can register and login<br/>
