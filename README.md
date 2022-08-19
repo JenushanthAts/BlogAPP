@@ -3,37 +3,24 @@
 This web app was developed using ReactJs , NodeJs, ExpressJs and Mysql with Jwt authentication and authorization. Client app is connected to server via REST Api.  <br/>
 Project folder structure be like
 ```
-📦src
- ┣ 📂Components
- ┃ ┣ 📂DeleteModal
- ┃ ┃ ┗ 📜DeleteModal.js
- ┃ ┣ 📂Posts
- ┃ ┃ ┣ 📂Post
- ┃ ┃ ┃ ┣ 📜Post.css
- ┃ ┃ ┃ ┗ 📜Post.js
- ┃ ┃ ┣ 📜Posts.css
- ┃ ┃ ┗ 📜Posts.js
- ┃ ┗ 📂TopBar
- ┃ ┃ ┣ 📜topBar.css
- ┃ ┃ ┗ 📜topBar.js
- ┣ 📂context
- ┃ ┣ 📜AuthAction.js
- ┃ ┣ 📜AuthContext.js
- ┃ ┗ 📜AuthReducer.js
- ┣ 📂Pages
- ┃ ┣ 📂Home
- ┃ ┃ ┗ 📜Home.js
- ┃ ┣ 📂SignIn
- ┃ ┃ ┣ 📜SignIn.css
- ┃ ┃ ┗ 📜SignIn.js
- ┃ ┣ 📂SinglePost
- ┃ ┃ ┣ 📜Single.css
- ┃ ┃ ┗ 📜Single.js
- ┃ ┗ 📂Write
- ┃ ┃ ┗ 📜Write.js
+📦client
+ ┣ 📂node_modules
+ ┣ 📂public
+ ┣ 📂src
+ ┃ ┃ ┗ 📂Components
+ ┃ ┃ ┗ 📂context
+ ┃ ┃ ┗ 📂Pages
  ┣ 📜App.js
  ┣ 📜config.js
  ┣ 📜index.css
+ ┗ 📜index.js
+ 
+ 📦server
+ ┣ 📂contoller
+ ┣ 📂node_modules
+ ┣ 📂middleware
+ ┣ 📂model
+ ┣ 📂routes
  ┗ 📜index.js
 
 ```
