@@ -1,4 +1,4 @@
-# BlogAPP
+# BlogAPP Documentaion <br/>
 
 This web app was developed using ReactJs , NodeJs, ExpressJs and Mysql.
 
@@ -22,3 +22,11 @@ This web app was developed using ReactJs , NodeJs, ExpressJs and Mysql.
  -- user can delete their post only
  
  -- user can update their post
+ 
+ 6.Back-End<br/> 
+  6.1. Create folder structure as following controller , middleware , model(db configuration), routes and main js file(index.js)<br/>.
+  6.2. Create a env file which contains Port number, db configurations and jwt secret key.
+  6.3. Create end points for user and blog (create post, updat epost, Delete post ,read post) in index.js file<br/>.
+  6.4. Create controller for authentication (Register , SignIn and check whether user exists or not) and Crud operation controller for blog<br/>
+  6.5. Create route files for authentication and blog crud operations<br/>.
+  6.6  Create middleware and place it into index.js file for handling crud operations (Delete and Update) of blogs.
