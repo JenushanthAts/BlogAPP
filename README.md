@@ -4,7 +4,10 @@ This web app was developed using ReactJs , NodeJs, ExpressJs and Mysql with Jwt 
 Project folder structure be like
 ```
 .
-+-- _config.yml
+|__Client
+    |__nodemodules
+    |__public
+|
 +-- _drafts
 |   +-- begin-with-the-crazy-ideas.textile
 |   +-- on-simplicity-in-technology.markdown
