@@ -3,27 +3,39 @@
 This web app was developed using ReactJs , NodeJs, ExpressJs and Mysql with Jwt authentication and authorization. Client app is connected to server via REST Api.  <br/>
 Project folder structure be like
 ```
-.
-|__Client
-    |__nodemodules
-    |__public
-|
-+-- _drafts
-|   +-- begin-with-the-crazy-ideas.textile
-|   +-- on-simplicity-in-technology.markdown
-+-- _includes
-|   +-- footer.html
-|   +-- header.html
-+-- _layouts
-|   +-- default.html
-|   +-- post.html
-+-- _posts
-|   +-- 2007-10-29-why-every-programmer-should-play-nethack.textile
-|   +-- 2009-04-26-barcamp-boston-4-roundup.textile
-+-- _data
-|   +-- members.yml
-+-- _site
-+-- index.html
+📦src
+ ┣ 📂Components
+ ┃ ┣ 📂DeleteModal
+ ┃ ┃ ┗ 📜DeleteModal.js
+ ┃ ┣ 📂Posts
+ ┃ ┃ ┣ 📂Post
+ ┃ ┃ ┃ ┣ 📜Post.css
+ ┃ ┃ ┃ ┗ 📜Post.js
+ ┃ ┃ ┣ 📜Posts.css
+ ┃ ┃ ┗ 📜Posts.js
+ ┃ ┗ 📂TopBar
+ ┃ ┃ ┣ 📜topBar.css
+ ┃ ┃ ┗ 📜topBar.js
+ ┣ 📂context
+ ┃ ┣ 📜AuthAction.js
+ ┃ ┣ 📜AuthContext.js
+ ┃ ┗ 📜AuthReducer.js
+ ┣ 📂Pages
+ ┃ ┣ 📂Home
+ ┃ ┃ ┗ 📜Home.js
+ ┃ ┣ 📂SignIn
+ ┃ ┃ ┣ 📜SignIn.css
+ ┃ ┃ ┗ 📜SignIn.js
+ ┃ ┣ 📂SinglePost
+ ┃ ┃ ┣ 📜Single.css
+ ┃ ┃ ┗ 📜Single.js
+ ┃ ┗ 📂Write
+ ┃ ┃ ┗ 📜Write.js
+ ┣ 📜App.js
+ ┣ 📜config.js
+ ┣ 📜index.css
+ ┗ 📜index.js
+
 ```
 # To Start
 1.Clone this project with branch name webDev.<br/>
