@@ -2,6 +2,8 @@
 
 This web app was developed using ReactJs , NodeJs, ExpressJs and Mysql with Jwt authentication and authorization. Client app is connected to server via REST Api.  <br/>
 Project folder structure be like
+```
+.
 +-- _config.yml
 +-- _drafts
 |   +-- begin-with-the-crazy-ideas.textile
@@ -19,6 +21,7 @@ Project folder structure be like
 |   +-- members.yml
 +-- _site
 +-- index.html
+```
 # To Start
 1.Clone this project with branch name webDev.<br/>
 2.Create database as "blogdb" and insert the attached dump file.Database configuration are like user:root, password:root,host:localhost,db:blogdb.<br/>
